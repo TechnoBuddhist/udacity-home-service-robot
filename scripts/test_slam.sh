@@ -1,6 +1,9 @@
 #!/bin/sh
-xterm -e " roslaunch basketbot world.launch"
+echo "    roslaunch basketbot world.launch ..."
+xterm -e " roslaunch basketbot world.launch" &
 sleep 5
-#xterm -e " roslaunch basketbot mapping.launch "
-#sleep 5
-xterm -e " rosrun telep_twist_keyboard teleop_twist_keyboard.py"
+echo "    roslaunch basketbot mapping.launch ..."
+xterm -e " roslaunch basketbot mapping.launch" &
+sleep 5
+echo "    rosrun teleop_twist_keyboard teleop_twist_keyboard.py ..."
+xterm -e " rosrun teleop_twist_keyboard teleop_twist_keyboard.py"

@@ -22,7 +22,7 @@ You should [create a new package](http://wiki.ros.org/ROS/Tutorials/CreatingPack
 
 Copy/clone this project into your workspace/src directory.
 
-Since there are a few package dependencies I have provided an install_pkgs.sh file that will clone the required Ros packages from github into the workspace/src directory.
+Since there are a few package dependencies I have provided an install_pkgs.sh file that will clone the required Ros packages from github into the workspace/src directory and perform a catking_make.
 
 ```
 cd <your workspace>/src

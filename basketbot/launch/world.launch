@@ -13,7 +13,7 @@
   <include file="$(find basketbot)/launch/robot_description.launch" />
   
   <!-- World File -->
-  <arg name="world_file" default="$(find basketbot)/world/RoboWorld.world"/>
+  <arg name="world_file" default="$(find basketbot)/world/RoboWorld2.world"/>
 
   <!-- Launch Gazebo World -->
   <include file="$(find gazebo_ros)/launch/empty_world.launch">
@@ -35,7 +35,4 @@
 
   <!-- Launch Detector node to stop if objects get too close -->
   <!--<node name="detector" pkg="detector" type="detector" output="screen" />-->
-  
-  <!-- Launch rviz -->
-  <node name="rviz" pkg="rviz" type="rviz" respawn="false" args="-d $(find basketbot)/config/basketbot.rviz" />
 </launch>
