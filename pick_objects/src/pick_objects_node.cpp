@@ -2,6 +2,8 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 
+#include <tf2/LinearMath/Quaternion.h>
+
 // Define a client for to send goal requests to the move_base server through a SimpleActionClient
 typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseClient;
 
@@ -39,9 +41,11 @@ int main(int argc, char** argv){
 
 bool moveToPickupPoint(MoveBaseClient &ac, move_base_msgs::MoveBaseGoal &goal){
   goal.target_pose.header.stamp = ros::Time::now();
-  goal.target_pose.pose.position.x = 2.0;
-  goal.target_pose.pose.position.y = -4.0;
-  goal.target_pose.pose.orientation.w = 1.0;
+  goal.target_pose.pose.position.x = 1.0;
+  goal.target_pose.pose.position.y = 1.0;
+  tf2::Quaternion myQuaternion;
+  myQuaternion.setRPY( 0, 0, -1.5707 );
+  goal.target_pose.pose.orientation.w = myQuaternion[3];
 
   bool succeeded{false};
   if ( succeeded = moveToGoal(ac, goal) ) {
@@ -56,7 +60,7 @@ bool moveToPickupPoint(MoveBaseClient &ac, move_base_msgs::MoveBaseGoal &goal){
 bool moveToDropOffPoint(MoveBaseClient &ac, move_base_msgs::MoveBaseGoal &goal){
   goal.target_pose.header.stamp = ros::Time::now();
   goal.target_pose.pose.position.x = 8.0;
-  goal.target_pose.pose.position.y = 8.0;
+  goal.target_pose.pose.position.y = -8.0;
   goal.target_pose.pose.orientation.w = 2.0;
 
   bool succeeded{false};
