@@ -1,47 +1,63 @@
-#include <ros/ros.h>
-#include <visualization_msgs/Marker.h>
+AddMarkerPublisher::AddMarkerPublisher() {
+  //Topic you want to publish
+  markerPublisher = nodeHandle.advertise<visualization_msgs::Marker>("visualization_marker", 1);
+  markerSubscriber = nodeHandle.subscribe("/subscribed_topic", 1, &SubscribeAndPublish::action, this);
 
-void initMarker(visualization_msgs::Marker &marker);
-
-int main( int argc, char** argv ){
-  ros::init(argc, argv, "add_markers");
-  ros::NodeHandle n;
   ros::Rate rate(1);
-  ros::Publisher markerPublisher = n.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-
   while ( ros::ok() )  {
     visualization_msgs::Marker marker;
 
     initMarker(marker);
-
-    // Publish the marker
-    while ( markerPublisher.getNumSubscribers() < 1 ) {
-      if ( !ros::ok() ) {
-        return 0;
-      }
-      ROS_WARN_ONCE("Please create a subscriber to the marker");
-      sleep(1);
-    }
     markerPublisher.publish(marker);
 
     rate.sleep();
   }
 }
 
-void initMarker(visualization_msgs::Marker &marker){
+bool AddMarkerPublisher::moveTo(geometry_msgs::Pose goal){
+  ROS_INFO("Marker moved");
+  
+  // Check if the robot reached its goal
+  bool succeeded{false};
+  if ( ac.getState() == actionlib::SimpleClientGoalState::SUCCEEDED ) {
+    succeeded = true;
+  } else {
+    succeeded =  false;
+  }
+
+  return succeeded;
+}
+
+bool AddMarkerPublisher::moveToPickup(){
+
+}
+
+bool AddMarkerPublisher::moveToDropOff(){
+
+}
+
+void AddMarkerPublisher::showMarker(){
+  marker.action = visualization_msgs::Marker::ADD;
+}
+
+void AddMarkerPublisher::hideMarker(){
+  marker.action = visualization_msgs::Marker::DELETE;
+}
+
+void action(const add_markers::action& input){
+  
+}
+
+void initMarker(){
   // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "/map";
     marker.header.stamp = ros::Time::now();
+    
     // Set the namespace and id for this marker.  This serves to create a unique ID
     // Any marker sent with the same namespace and id will overwrite the old one
     marker.ns = "add_markers";
     marker.id = 0;
-
-    // Set the marker type.
-    marker.type = visualization_msgs::Marker::ARROW;
-
-    // Set the marker action.  Options are ADD, DELETE, and new in ROS Indigo: 3 (DELETEALL)
-    marker.action = visualization_msgs::Marker::ADD;
+    marker.type = visualization_msgs::Marker::SPHERE;
 
     // Set the pose of the marker.  This is a full 6DOF pose relative to the frame/time specified in the header
     marker.pose.position.x = 0;
