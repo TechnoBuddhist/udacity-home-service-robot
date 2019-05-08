@@ -1,24 +1,24 @@
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
-#include <geometry_msgs/Pose.h>
+#include <geometry_msgs/Point.h>
+#include "add_markers/Action.h"
 
-#ifndef ADD_MARKER_PUBLISHER_H
-#define ADD_MARKER_PUBLISHER_H
+#ifndef ADD_MARKER_H
+#define ADD_MARKER_H
 
-class AddMarkerPublisher {
+class AddMarker {
   public:
-    AddMarkerPublisher() {}
-    void showMarker();
-    void hideMarker();
+    AddMarker();
 
   private:
     void initMarker();
-    bool moveToPickup();
-    bool moveToDropOff();
-    bool moveTo(geometry_msgs::Pose goal);
+    void showMarker();
+    void hideMarker();
+    void action(const add_markers::Action& input);
     
     ros::NodeHandle nodeHandle; 
-    ros::Publisher markerPublisher;
+    ros::Publisher  markerPublisher;
+    ros::Subscriber markerSubscriber;
     visualization_msgs::Marker marker;
 };
 
