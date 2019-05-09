@@ -1,14 +1,14 @@
+#ifndef ADD_MARKER_H
+#define ADD_MARKER_H
+
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Point.h>
 #include "add_markers/Action.h"
 
-#ifndef ADD_MARKER_H
-#define ADD_MARKER_H
-
 class AddMarker {
   public:
-    AddMarker();
+    AddMarker(const ros::NodeHandle* handle);
 
   private:
     void initMarker();

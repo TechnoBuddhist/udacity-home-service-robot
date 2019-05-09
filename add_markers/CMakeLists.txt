@@ -51,7 +51,7 @@ find_package(catkin REQUIRED COMPONENTS
 ## Generate messages in the 'msg' folder
 add_message_files(
   FILES
-  action.msg
+  Action.msg
 )
 
 ## Generate services in the 'srv' folder
@@ -69,11 +69,12 @@ add_message_files(
 # )
 
 ## Generate added messages and services with any dependencies listed here
-# generate_messages(
-#   DEPENDENCIES
-#   visualization_msgs
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  visualization_msgs
   geometry_msgs
-# )
+)
 
 ################################################
 ## Declare ROS dynamic reconfigure parameters ##
@@ -107,7 +108,7 @@ add_message_files(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES add_markers
-#  CATKIN_DEPENDS roscpp visualization_msgs
+  CATKIN_DEPENDS roscpp visualization_msgs
 #  DEPENDS system_lib
   CATKIN_DEPENDS message_runtime
 )
@@ -137,7 +138,7 @@ include_directories(
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME} src/add_markers_node.cpp)
+add_executable(${PROJECT_NAME} src/add_markers_node.cpp src/AddMarker.cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the

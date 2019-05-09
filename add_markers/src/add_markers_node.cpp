@@ -1,5 +1,4 @@
 #include <ros/ros.h>
-#include "AddMarker.h"
 
 
 int main( int argc, char** argv ){
@@ -8,7 +7,7 @@ int main( int argc, char** argv ){
   ros::NodeHandle nodeHandle;
   ros::Rate rate(1);
 
-  addMarkerPub = nodeHandle.advertise<add_markers::Action>("action", 1);
+  ros::Publisher addMarkerPub = nodeHandle.advertise<add_markers::Action>("/add_markers/action", 1);
 
   while ( !ros::ok() ) {
     sleep(1);
@@ -27,6 +26,7 @@ void hideMarker(){
   action.type = "DELETE";
   ROS_INFO("HIDE marker request");
   addMarkerPub.publish(action);
+  ros::spinOnce();
 
   return;
 }
@@ -39,7 +39,8 @@ void moveToPickupPoint(){
   action.type = "SHOW";
   ROS_INFO("pickup marker requested");
   addMarkerPub.publish(action);
-  
+  ros::spinOnce();
+
   return;
 }
 
@@ -50,6 +51,7 @@ void moveToDropOffPoint(){
   action.type = "SHOW";
   ROS_INFO("dropoff marker requested");
   addMarkerPub.publish(action);
+  ros::spinOnce();
 
   return;
 }

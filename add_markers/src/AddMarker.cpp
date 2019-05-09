@@ -1,4 +1,6 @@
-AddMarker::AddMarker() {
+#include "AddMArker.h"
+
+AddMarker::AddMarker(ros::NodeHandle* handle):nodeHandle(*handle) {
   markerPublisher  = nodeHandle.advertise<visualization_msgs::Marker>("visualization_marker", 1);
   markerSubscriber = nodeHandle.subscribe("/add_markers/action", 1, &AddMarker::Action, this);
   visualization_msgs::Marker marker;
@@ -67,4 +69,14 @@ void initMarker(){
     marker.action = visualization_msgs::Marker::DELETE;
   
     marker.lifetime = ros::Duration();
+}
+
+void main(){
+  ros::init(argc, argv, "AddMarker");
+  ros::NodeHandle nodeHandle;
+
+  AddMarker marker(&nh);
+  ros::spin();
+
+  return 0;
 }
