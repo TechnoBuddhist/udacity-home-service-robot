@@ -1,20 +1,27 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(add_markers)
+project(marker_manager)
 
 add_compile_options(-std=c++11)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
-  marker_manager
+  geometry_msgs
+  message_generation
 )
 
-################################################
-## Declare ROS messages, services and actions ##
-################################################
+## Generate messages in the 'msg' folder
+add_message_files(
+  FILES
+  action.msg
+)
+
+## Generate added messages and services with any dependencies listed here
+generate_messages(
+  DEPENDENCIES
+  std_msgs
+  geometry_msgs
+)
 
 ###################################
 ## catkin specific configuration ##
@@ -26,10 +33,10 @@ find_package(catkin REQUIRED COMPONENTS
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES add_markers
+  INCLUDE_DIRS include
+#  LIBRARIES marker_manager
+  CATKIN_DEPENDS roscpp std_msgs visualization_msgs message_runtime
 #  DEPENDS system_lib
-  CATKIN_DEPENDS roscpp visualization_msgs message_runtime marker_manager
 )
 
 ###########
@@ -39,23 +46,26 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-  include
-  src
+include
   ${catkin_INCLUDE_DIRS}
 )
 
-## Add cmake target dependencies of the executable
-## same as for the library above
-add_dependencies(marker_manager marker_manager_generate_messages_cpp)
+## Declare a C++ library
+# add_library(${PROJECT_NAME}
+#   src/${PROJECT_NAME}/marker_manager.cpp
+# )
+
+## Add cmake target dependencies of the library
+## as an example, code may need to be generated before libraries
+## either from message generation or dynamic reconfigure
+#add_dependencies(${PROJECT_NAME} marker_manager_generate_messages_cpp)
 
 ## Declare a C++ executable
 ## With catkin_make all packages are built within a single CMake context
 ## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME} src/add_markers_node.cpp)
-
+add_executable(${PROJECT_NAME} src/marker_manager_node.cpp )
 
 ## Specify libraries to link a library or executable target against
-target_link_libraries(
-  ${PROJECT_NAME}
+target_link_libraries(${PROJECT_NAME}
   ${catkin_LIBRARIES}
 )

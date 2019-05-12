@@ -1,25 +1,26 @@
-#ifndef ADD_MARKER_H
-#define ADD_MARKER_H
+#ifndef MARKER_MANAGER_NODE_H
+#define MARKER_MANAGER_NODE_H
 
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
 #include <geometry_msgs/Point.h>
-#include "add_markers/Action.h"
+#include "marker_manager/action.h"
 
-class AddMarker {
+class MarkerManager {
   public:
-    AddMarker(const ros::NodeHandle* handle);
+    MarkerManager(const ros::NodeHandle* handle);
 
   private:
     void initMarker();
     void showMarker();
     void hideMarker();
-    void action(const add_markers::Action& input);
-    
-    ros::NodeHandle nodeHandle; 
+    void publish();
+    void action(const marker_manager::action& input);
+
     ros::Publisher  markerPublisher;
     ros::Subscriber markerSubscriber;
     visualization_msgs::Marker marker;
+    ros::NodeHandle nodeHandle;
 };
 
 #endif

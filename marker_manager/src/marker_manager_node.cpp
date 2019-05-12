@@ -1,28 +1,30 @@
-#include "AddMArker.h"
+#include "marker_manager_node.h"
 
-AddMarker::AddMarker(ros::NodeHandle* handle):nodeHandle(*handle) {
+MarkerManager::MarkerManager(const ros::NodeHandle* handle):nodeHandle(*handle) {
   markerPublisher  = nodeHandle.advertise<visualization_msgs::Marker>("visualization_marker", 1);
-  markerSubscriber = nodeHandle.subscribe("/add_markers/action", 1, &AddMarker::Action, this);
+  markerSubscriber = nodeHandle.subscribe("/marker_manager_action_topic", 1, &MarkerManager::action, this);
   visualization_msgs::Marker marker;
-  initMarker(marker);
+  initMarker();
+}
 
-  ros::Rate rate(1);
-
-  while ( ros::ok() )  {
+void MarkerManager::publish(){
+  if ( ros::ok() ) {
     markerPublisher.publish(marker);
-    rate.sleep();
+    ros::spinOnce();
   }
 }
 
-void AddMarker::showMarker(){
+void MarkerManager::showMarker(){
   marker.action = visualization_msgs::Marker::ADD;
+  publish();
 }
 
-void AddMarker::hideMarker(){
+void MarkerManager::hideMarker(){
   marker.action = visualization_msgs::Marker::DELETE;
+  publish();
 }
 
-void action(const add_markers::action& input){
+void MarkerManager::action(const marker_manager::action& input){
   if ( input.type == "SHOW" ) {
     marker.pose.position.x = input.point.x;
     marker.pose.position.y = input.point.y;
@@ -33,7 +35,7 @@ void action(const add_markers::action& input){
   }
 }
 
-void initMarker(){
+void MarkerManager::initMarker(){
   // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "/map";
     marker.header.stamp = ros::Time::now();
@@ -64,18 +66,16 @@ void initMarker(){
     marker.color.b = 1.0f;
     marker.color.a = 1.0f;
 
-
     // Init the marker as hidden
     marker.action = visualization_msgs::Marker::DELETE;
-  
     marker.lifetime = ros::Duration();
 }
 
-void main(){
-  ros::init(argc, argv, "AddMarker");
+int main(int argc, char** argv){
+  ros::init(argc, argv, "marker_manager");
   ros::NodeHandle nodeHandle;
 
-  AddMarker marker(&nh);
+  MarkerManager marker(&nodeHandle);
   ros::spin();
 
   return 0;

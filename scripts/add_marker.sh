@@ -9,5 +9,8 @@ sleep 5
 echo "    roslaunch turtlebot_rviz_launchers view_navigation.launch ..."
 xterm -e " roslaunch turtlebot_rviz_launchers view_navigation.launch" &
 sleep 5
+echo "    launching - marker_manager node ..."
+xterm -e " rosrun marker_manager marker_manager_node" &
+sleep 5
 echo "    launching - add_marker node ..."
 xterm -e " rosrun add_markers add_markers_node"

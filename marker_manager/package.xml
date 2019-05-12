@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>add_markers</name>
+  <name>marker_manager</name>
   <version>0.0.0</version>
-  <description>The add_markers package</description>
+  <description>The marker_manager package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag -->
   <!-- Example:  -->
@@ -19,7 +19,7 @@
   <!-- Url tags are optional, but multiple are allowed, one per tag -->
   <!-- Optional attribute type can be: website, bugtracker, or repository -->
   <!-- Example: -->
-  <!-- <url type="website">http://wiki.ros.org/add_markers</url> -->
+  <!-- <url type="website">http://wiki.ros.org/marker_manager</url> -->
 
 
   <!-- Author tags are optional, multiple are allowed, one per tag -->
@@ -33,7 +33,6 @@
   <!-- Examples: -->
   <!-- Use depend as a shortcut for packages that are both build and exec dependencies -->
   <!--   <depend>roscpp</depend> -->
-  <!-- <depend>marker_manager</depend> -->
   <!--   Note that this is equivalent to the following: -->
   <!--   <build_depend>roscpp</build_depend> -->
   <!--   <exec_depend>roscpp</exec_depend> -->
@@ -51,16 +50,16 @@
   <!--   <doc_depend>doxygen</doc_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
   <build_depend>roscpp</build_depend>
+  <build_depend>std_msgs</build_depend>
   <build_depend>visualization_msgs</build_depend>
   <build_depend>message_generation</build_depend>
-  <build_depend>marker_manager</build_depend>
   <build_export_depend>roscpp</build_export_depend>
+  <build_export_depend>std_msgs</build_export_depend>
   <build_export_depend>visualization_msgs</build_export_depend>
   <exec_depend>roscpp</exec_depend>
+  <exec_depend>std_msgs</exec_depend>
   <exec_depend>visualization_msgs</exec_depend>
   <exec_depend>message_runtime</exec_depend>
-  <exec_depend>marker_manager</exec_depend>
-
 
   <!-- The export tag contains other, unspecified, tags -->
   <export>
