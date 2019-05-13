@@ -3,59 +3,22 @@ project(add_markers)
 
 add_compile_options(-std=c++11)
 
-## Find catkin macros and libraries
-## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
-## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
   roscpp
   std_msgs
   marker_manager
 )
 
-################################################
-## Declare ROS messages, services and actions ##
-################################################
-
-###################################
-## catkin specific configuration ##
-###################################
-## The catkin_package macro generates cmake config files for your package
-## Declare things to be passed to dependent projects
-## INCLUDE_DIRS: uncomment this if your package contains header files
-## LIBRARIES: libraries you create in this project that dependent projects also need
-## CATKIN_DEPENDS: catkin_packages dependent projects also need
-## DEPENDS: system dependencies of this project that dependent projects also need
 catkin_package(
-#  INCLUDE_DIRS include
-#  LIBRARIES add_markers
-#  DEPENDS system_lib
   CATKIN_DEPENDS roscpp visualization_msgs message_runtime marker_manager
 )
 
-###########
-## Build ##
-###########
-
-## Specify additional locations of header files
-## Your package locations should be listed before other locations
 include_directories(
   include
   src
   ${catkin_INCLUDE_DIRS}
 )
 
-## Add cmake target dependencies of the executable
-## same as for the library above
 add_dependencies(marker_manager marker_manager_generate_messages_cpp)
-
-## Declare a C++ executable
-## With catkin_make all packages are built within a single CMake context
-## The recommended prefix ensures that target names across packages don't collide
-add_executable(${PROJECT_NAME} src/add_markers_node.cpp)
-
-
-## Specify libraries to link a library or executable target against
-target_link_libraries(
-  ${PROJECT_NAME}
-  ${catkin_LIBRARIES}
-)
+add_executable(${PROJECT_NAME} src/add_markers.cpp)
+target_link_libraries(${PROJECT_NAME} ${catkin_LIBRARIES})

@@ -1,4 +1,4 @@
-#include "marker_manager_node.h"
+#include "marker_manager.h"
 
 MarkerManager::MarkerManager(const ros::NodeHandle* handle):nodeHandle(*handle) {
   markerPublisher  = nodeHandle.advertise<visualization_msgs::Marker>("visualization_marker", 1);
@@ -8,6 +8,7 @@ MarkerManager::MarkerManager(const ros::NodeHandle* handle):nodeHandle(*handle) 
 }
 
 void MarkerManager::publish(){
+  ROS_INFO("marker_manager_node - publish");
   if ( ros::ok() ) {
     markerPublisher.publish(marker);
     ros::spinOnce();
@@ -15,16 +16,19 @@ void MarkerManager::publish(){
 }
 
 void MarkerManager::showMarker(){
+  ROS_INFO("marker_manager_node - show");
   marker.action = visualization_msgs::Marker::ADD;
   publish();
 }
 
 void MarkerManager::hideMarker(){
+  ROS_INFO("marker_manager_node - hide");
   marker.action = visualization_msgs::Marker::DELETE;
   publish();
 }
 
 void MarkerManager::action(const marker_manager::action& input){
+  ROS_INFO("marker_manager_node - action message rcvd");
   if ( input.type == "SHOW" ) {
     marker.pose.position.x = input.point.x;
     marker.pose.position.y = input.point.y;
@@ -36,6 +40,7 @@ void MarkerManager::action(const marker_manager::action& input){
 }
 
 void MarkerManager::initMarker(){
+  ROS_INFO("marker_manager_node - init");
   // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "/map";
     marker.header.stamp = ros::Time::now();
@@ -61,9 +66,9 @@ void MarkerManager::initMarker(){
     marker.scale.z = 0.5f;
 
     // Set the color -- be sure to set alpha to something non-zero!
-    marker.color.r = 0.0f;
-    marker.color.g = 1.0f;
-    marker.color.b = 1.0f;
+    marker.color.r = 1.0f;
+    marker.color.g = 0.0f;
+    marker.color.b = 0.0f;
     marker.color.a = 1.0f;
 
     // Init the marker as hidden
@@ -72,6 +77,7 @@ void MarkerManager::initMarker(){
 }
 
 int main(int argc, char** argv){
+  ROS_INFO("marker_manager_node - MAIN");
   ros::init(argc, argv, "marker_manager");
   ros::NodeHandle nodeHandle;
 

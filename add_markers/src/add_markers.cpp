@@ -16,10 +16,13 @@ int main(int argc, char** argv){
 
   addMarkerPub = nodeHandle.advertise<marker_manager::action>("/marker_manager_action_topic", 1);
 
+  ROS_INFO("add_marker_node - moveToPickupPoint");
   moveToPickupPoint();
   ros::Duration(5, 0).sleep();
+  ROS_INFO("add_marker_node - hideMArker");
   hideMarker();
   ros::Duration(5, 0).sleep();
+  ROS_INFO("add_marker_node - moveToDropOffPoint");
   moveToDropOffPoint();
  
   return 0;

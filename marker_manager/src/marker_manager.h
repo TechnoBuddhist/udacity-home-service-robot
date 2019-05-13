@@ -1,5 +1,5 @@
-#ifndef MARKER_MANAGER_NODE_H
-#define MARKER_MANAGER_NODE_H
+#ifndef MARKER_MANAGER_H
+#define MARKER_MANAGER_H
 
 #include <ros/ros.h>
 #include <visualization_msgs/Marker.h>
