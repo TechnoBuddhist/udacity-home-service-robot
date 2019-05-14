@@ -12,5 +12,8 @@ sleep 5
 echo "    launching - add_marker node ..."
 xterm -e " rosrun add_markers add_markers" &
 sleep 5
+echo "    rosrun pick_objects pick_objects_node ..."
+xterm -e " rosrun pick_objects pick_objects_node" &
+sleep 5
 echo "    launching - marker_manager node ..."
 xterm -e " rosrun marker_manager marker_manager"

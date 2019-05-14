@@ -8,7 +8,6 @@ MarkerManager::MarkerManager(const ros::NodeHandle* handle):nodeHandle(*handle) 
 }
 
 void MarkerManager::publish(){
-  ROS_INFO("marker_manager - publish");
   if ( ros::ok() ) {
     markerPublisher.publish(marker);
     ros::spinOnce();
@@ -16,26 +15,22 @@ void MarkerManager::publish(){
 }
 
 void MarkerManager::showMarker(){
-  ROS_INFO("marker_manager - show");
   marker.action = visualization_msgs::Marker::ADD;
   publish();
 }
 
 void MarkerManager::hideMarker(){
-  ROS_INFO("marker_manager - hide");
   marker.action = visualization_msgs::Marker::DELETE;
   publish();
 }
 
 void MarkerManager::action(const marker_manager::action& input){
   if ( input.type == "SHOW" ) {
-    ROS_INFO("SHOWing marker");
     marker.pose.position.x = input.point.x;
     marker.pose.position.y = input.point.y;
     marker.pose.position.z = input.point.z;
     showMarker();
   } else {
-    ROS_INFO("HIDing marker");
     hideMarker();
   }
 }
@@ -78,7 +73,6 @@ void MarkerManager::initMarker(){
 }
 
 int main(int argc, char** argv){
-  ROS_INFO("marker_manager - MAIN");
   ros::init(argc, argv, "marker_manager");
   ros::NodeHandle nodeHandle;
 
