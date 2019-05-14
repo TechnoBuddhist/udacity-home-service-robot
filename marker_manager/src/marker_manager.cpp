@@ -8,7 +8,7 @@ MarkerManager::MarkerManager(const ros::NodeHandle* handle):nodeHandle(*handle) 
 }
 
 void MarkerManager::publish(){
-  ROS_INFO("marker_manager_node - publish");
+  ROS_INFO("marker_manager - publish");
   if ( ros::ok() ) {
     markerPublisher.publish(marker);
     ros::spinOnce();
@@ -16,31 +16,32 @@ void MarkerManager::publish(){
 }
 
 void MarkerManager::showMarker(){
-  ROS_INFO("marker_manager_node - show");
+  ROS_INFO("marker_manager - show");
   marker.action = visualization_msgs::Marker::ADD;
   publish();
 }
 
 void MarkerManager::hideMarker(){
-  ROS_INFO("marker_manager_node - hide");
+  ROS_INFO("marker_manager - hide");
   marker.action = visualization_msgs::Marker::DELETE;
   publish();
 }
 
 void MarkerManager::action(const marker_manager::action& input){
-  ROS_INFO("marker_manager_node - action message rcvd");
   if ( input.type == "SHOW" ) {
+    ROS_INFO("SHOWing marker");
     marker.pose.position.x = input.point.x;
     marker.pose.position.y = input.point.y;
     marker.pose.position.z = input.point.z;
     showMarker();
   } else {
+    ROS_INFO("HIDing marker");
     hideMarker();
   }
 }
 
 void MarkerManager::initMarker(){
-  ROS_INFO("marker_manager_node - init");
+  ROS_INFO("marker_manager - init");
   // Set the frame ID and timestamp.  See the TF tutorials for information on these.
     marker.header.frame_id = "/map";
     marker.header.stamp = ros::Time::now();
@@ -72,12 +73,12 @@ void MarkerManager::initMarker(){
     marker.color.a = 1.0f;
 
     // Init the marker as hidden
-    marker.action = visualization_msgs::Marker::DELETE;
+    marker.action = visualization_msgs::Marker::ADD;
     marker.lifetime = ros::Duration();
 }
 
 int main(int argc, char** argv){
-  ROS_INFO("marker_manager_node - MAIN");
+  ROS_INFO("marker_manager - MAIN");
   ros::init(argc, argv, "marker_manager");
   ros::NodeHandle nodeHandle;
 

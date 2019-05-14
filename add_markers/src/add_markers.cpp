@@ -15,14 +15,19 @@ int main(int argc, char** argv){
   ros::NodeHandle nodeHandle;
 
   addMarkerPub = nodeHandle.advertise<marker_manager::action>("/marker_manager_action_topic", 1);
+  while ( addMarkerPub.getNumSubscribers() <= 0 ){
+    ros::Duration(0.5f, 0).sleep();
+  }
 
-  ROS_INFO("add_marker_node - moveToPickupPoint");
+
+  moveToPickupPoint();
+  ROS_INFO("add_markers- moveToPickupPoint");
   moveToPickupPoint();
   ros::Duration(5, 0).sleep();
-  ROS_INFO("add_marker_node - hideMArker");
+  ROS_INFO("add_markers - hideMArker");
   hideMarker();
   ros::Duration(5, 0).sleep();
-  ROS_INFO("add_marker_node - moveToDropOffPoint");
+  ROS_INFO("add_markers - moveToDropOffPoint");
   moveToDropOffPoint();
  
   return 0;
@@ -42,7 +47,7 @@ void moveToPickupPoint(){
   action.point.y = 3.0f;
   action.point.z = 0.0f;
   action.type = "SHOW";
-  ROS_INFO("pickup marker requested");
+  ROS_INFO("moveToPickupPoint marker requested");
   addMarkerPub.publish(action);
   ros::spinOnce();
 
