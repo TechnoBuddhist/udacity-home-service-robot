@@ -1,12 +1,13 @@
 #!/bin/sh
-echo "    launching - basketbot world.launch ..."
-xterm -e " roslaunch basketbot world.launch" &
+echo "    roslaunch turtlebot_gazebo turtlebot_world.launch ..."
+xterm -e " roslaunch turtlebot_gazebo turtlebot_world.launch world_file:=$PWD/src/basketbot/world/RoboWorld2.world
+" &
 sleep 5
-echo "    launching - basketbot mapping.launch ..."
-xterm -e " roslaunch basketbot mapping.launch" &
+echo "    roslaunch turtlebot_gazebo amcl_demo.launch ..."
+xterm -e " roslaunch turtlebot_gazebo amcl_demo.launch map_file:=$PWD/src/basketbot/maps/map.yaml" &
 sleep 5
-echo "    launching - basketbot view_navigation.launch ..."
-xterm -e " roslaunch basketbot view_navigation.launch" &
+echo "    roslaunch turtlebot_rviz_launchers view_navigation.launch ..."
+xterm -e " roslaunch turtlebot_rviz_launchers view_navigation.launch" &
 sleep 5
-echo "    launching - pick_objects pick_objects_node ..."
+echo "    rosrun pick_objects pick_objects_node ..."
 xterm -e " rosrun pick_objects pick_objects_node"
