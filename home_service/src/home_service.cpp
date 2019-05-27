@@ -15,10 +15,10 @@ bool moveToPickupPoint(MoveBaseClient& ac, move_base_msgs::MoveBaseGoal& goal);
 bool moveToDropOffPoint(MoveBaseClient& ac, move_base_msgs::MoveBaseGoal& goal);
 bool moveToGoal(MoveBaseClient& ac, move_base_msgs::MoveBaseGoal& goal);
 
-const float PICK_UP_POINT_X = 1.0f; //4.0f;
-const float PICK_UP_POINT_Y = 0.0f;  //3.0f;
-const float DROP_OFF_POINT_X = 0.0f; //8.0f;
-const float DROP_OFF_POINT_Y = 0.0f; //-4.0f;
+const float PICK_UP_POINT_X = 4.0f;
+const float PICK_UP_POINT_Y = 3.0f;
+const float DROP_OFF_POINT_X = 8.0f;
+const float DROP_OFF_POINT_Y = -4.0f;
 
 ros::Publisher addMarkerPub;
 move_base_msgs::MoveBaseGoal goal;
