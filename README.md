@@ -10,7 +10,7 @@ I'm not going to talk you through how to use ROS, there are plenty of tutorials 
 
 You will also need [RVIZ](http://wiki.ros.org/rviz/UserGuide) and [Gazebo](http://gazebosim.org/).
 
-The project is launched using a shell script tht launches several xterm terminals for each of several different Ros packages.
+The project has several launch shell script that perform the required project requirements. Each shell script launches a number of xterm terminals for each of several different Ros packages used. These scripts should be run from the main package folder as they use the main package folder as the root to correctly locate the map and yaml files.
 
 ### Prerequisites
 - An installed ROS system with rviz, gazebo.
@@ -18,11 +18,11 @@ The project is launched using a shell script tht launches several xterm terminal
 - A ROS workspace
 
 ### Installing
-You should [create a new package](http://wiki.ros.org/ROS/Tutorials/CreatingPackage).
+You should [create a new Ros package](http://wiki.ros.org/ROS/Tutorials/CreatingPackage).
 
 Copy/clone this project into your workspace/src directory.
 
-Since there are a few package dependencies I have provided an install_pkgs.sh file that will clone the required Ros packages from github into the workspace/src directory and perform a catking_make.
+Since there are a few package dependencies I have provided an install_pkgs.sh file that will clone the required Ros packages from github into the workspace/src directory and perform a catkin_make.
 
 ```
 cd <your workspace>/src
@@ -30,53 +30,41 @@ sh scripts/install_pkgs.sh
 ```
 
 ## Usage
-This project will create an rtabmap database for viewing created map and robot path. You may want to change the location of this database by either passing the parameter `database_path` to the mapping.launch command or change the default in the mapping.launch file(src/basketbot/launch/mapping.launch). By default the path is `~/.ros/rtabmap.db`.
 
-You will need 3 terminals running.
-
-**Terminal 1**
-In your ROS workspace run the world with basketbot(launches rviz and gazebo):-
-
+#### Requirement 1
 ```
-catkin_make
-source devel/setup.bash
-roslaunch basketbot world.launch
+sh scripts/test_slam.sh
 ```
 
-**Terminal 2**
-In your ROS workspace run the teleop module to control the baskebot :-
-
+#### Requirement 2
 ```
-source devel/setup.bash
-rosrun teleop_twist_keyboard teleop_twist_keyboard.py 
+sh scripts/test_navigation.sh
 ```
 
-
-**Terminal 3**
-In your ROS workspace launch the rtabmap module to perform RTAB :-
-
+#### Requirement 3
 ```
-source devel/setup.bash
-roslaunch basketbot mapping.launch 
+sh scripts/pick_objects.sh
 ```
 
-## Viewing RTAB Created Map ##
-###My Generated Map
-My generated DB is too big for github so is stored on Google Drive in both zipped and unzipped format. Simply download and issue the same command as below.
-
-[unzipped rtabmap.db](https://drive.google.com/open?id=1IF21DfZuhObm67K9NsVUwdalZ1X2t0e4)
-
-[zipped rtabmap.db.zip](https://drive.google.com/open?id=1VCui1ZcR0mGmwyNhvYoG2pp9KL-ROlm9)
-
-###Your Own Generated Map
-When you have fininshed navigating the environment, you can view the created map and robot path by viewing the map in rtabmap-databaseViewer. In a terminal :-
-
+#### Requirement 4
 ```
-rtabmap-databaseViewer ~/.ros/rtabmap.db
+sh scripts/add_marker.sh
 ```
 
-## Future Work
-Work out how/why localization.launch is not doing anything.
+#### Requirement 5
+```
+sh scripts/home_service.sh
+```
+
+## Description of Packages Used
+This project uses the following packages :-
+
+The `ros-perception/slam_gmapping` package performs laser based SLAM, Simultaneous Location And Mapping. A 2D occupancy grid map is created using the laser data and turtlebot robot (`turtlebot` package) pose data as it moves through an environment, which the user can do using the `keyboard_teleop` package.
+From a given map created by the SLAM package, the AMCL package is used to localise the robot within the environment using a particle filter. The `navigation` package can be given a goal and will use the odometry(from AMCL) and other sensor information to navigate to a given goal.
+As usual the `RVIZ` package is used to visualise everything.
+
+For this project's requirements, I created a marker_manager node that decouples and simplifies the action of managing markers that subscribes to requests to show or hide a marker at a given Point using a custom Ros message. The marker_manager is used by both the add_marker and home_service nodes to simplify them and remove the code overhead of them having to show and hide markers themselves.
+ 
 
 ## Contributing
 No contributions accepted this is **my project** for the course.
